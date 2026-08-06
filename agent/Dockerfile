@@ -30,5 +30,5 @@ WORKDIR /app
 COPY entrypoint.sh .
 # RUN chmod +x entrypoint.sh
 
-ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["backup"]
+# ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["/app/entrypoint.sh", "backup"]
