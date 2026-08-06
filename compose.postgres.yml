@@ -18,6 +18,8 @@ services:
       # - ${BACKUP_PATH}:/backup
     # ports:
     #     - 5432:5432
+    networks:
+      - connection
 
   adminer:
     image: adminer

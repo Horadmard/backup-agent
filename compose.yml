@@ -11,3 +11,6 @@ services:
         - .env
     volumes:
       - ./agent:/app
+    restart: no
+    networks:
+      - connection

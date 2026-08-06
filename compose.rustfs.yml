@@ -48,7 +48,7 @@ services:
       - rustfs_data_3:/data/rustfs3
       - logs:/app/logs
     networks:
-      - rustfs-network
+      - connection
     restart: unless-stopped
     healthcheck:
       # Default behavior:
@@ -104,7 +104,7 @@ services:
     restart: "no"
 
 networks:
-  rustfs-network:
+  connections:
 
 volumes:
   rustfs_data_0:

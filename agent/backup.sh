@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Initialize:
+rc alias set rustfs http://${RUSTFS_HOST}:9000 $RUSTFS_ACCESS_KEY $RUSTFS_SECRET_KEY
+rc ready rustfs
+rc bucket create rustfs/backup
+
 TIMESTAMP=$(date +'%Y%m%d%H%M%S')
 COMPOSE="docker compose -p container"
 
@@ -33,3 +38,5 @@ rm -f /var/backup/postgres_backup_${TIMESTAMP}.dump
 rm -f /var/backup/postgres_backup_${TIMESTAMP}.dump.gpg
 
 echo "INFO-$TIMESTAMP: Encrypted Backup uploaded into rustfs."
+
+
