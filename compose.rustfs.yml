@@ -104,7 +104,7 @@ services:
     restart: "no"
 
 networks:
-  connections:
+  connection:
 
 volumes:
   rustfs_data_0:

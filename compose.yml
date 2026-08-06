@@ -6,11 +6,10 @@ services:
       context: ./agent
       args:
         - DOCKER_IMAGE_REGISTRY=${DOCKER_IMAGE_REGISTRY}
-    restart: always
+    restart: no
     env_file:
         - .env
     volumes:
       - ./agent:/app
-    restart: no
     networks:
       - connection
