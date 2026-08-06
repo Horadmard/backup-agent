@@ -84,13 +84,14 @@ retention_cleanup() {
     RETENTION_SECONDS="${RETENTION_SECONDS:-600}"
     log "INFO" "Starting retention cleanup."
     log "INFO" "Retention policy: ${RETENTION_SECONDS}s"
+
     NOW=$(date +%s)
 
     /usr/local/bin/rc ls --json "$ALIAS/$BUCKET" \
-    | jq -r '.items[] | "\(.key) \(.last_modified)"' \
-    | while read -r OBJECT DATE; do
-        OBJECT_TIME=$(date -d "$DATE" +%s)
+    | jq -r '.items[] | "\(.key) \(.last_modified | fromdateiso8601)"' \
+    | while read -r OBJECT OBJECT_TIME; do
         AGE=$((NOW - OBJECT_TIME))
+
         if [[ "$AGE" -ge "$RETENTION_SECONDS" ]]; then
             log "INFO" \
             "Deleting object: $OBJECT (age ${AGE}s)"
@@ -98,6 +99,7 @@ retention_cleanup() {
                 "$ALIAS/$BUCKET/$OBJECT" \
                 || log "ERROR" "Failed deleting $OBJECT"
         fi
+        
     done
     log "INFO" "Retention cleanup completed."
 }
