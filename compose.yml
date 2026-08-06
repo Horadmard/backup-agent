@@ -1,0 +1,11 @@
+services:
+
+  agent:
+    image: ${DOCKER_IMAGE_REGISTRY}/backup/agent:alpine-3.23
+    build:
+      context: ./agent
+      args:
+        - DOCKER_IMAGE_REGISTRY=${DOCKER_IMAGE_REGISTRY}
+    restart: always
+    env_file:
+        - .env

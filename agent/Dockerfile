@@ -2,7 +2,7 @@ ARG DOCKER_IMAGE_REGISTRY=docker.io
 FROM ${DOCKER_IMAGE_REGISTRY}/library/alpine:3.23
 
 ARG APK_MIRROR_URL=https://linux-mirror.liara.ir/repository/alpine
-ARG RC_VERSION=0.1.31
+ARG RC_VERSION=0.1.30
 
 RUN echo "${APK_MIRROR_URL}/v3.23/main" > /etc/apk/repositories && \
     echo "${APK_MIRROR_URL}/v3.23/community" >> /etc/apk/repositories

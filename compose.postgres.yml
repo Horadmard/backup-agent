@@ -11,8 +11,6 @@ services:
     #    target: /dev/shm
     #    tmpfs:
     #      size: 134217728 # 128*2^20 bytes = 128Mb
-    environment:
-      POSTGRES_PASSWORD: passWord
     env_file:
         - .env
     volumes:
