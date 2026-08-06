@@ -5,7 +5,6 @@ COMPOSE="docker compose -p container"
 
 echo "Backing up PostgreSQL..."
 
-$COMPOSE exec -T -e TIMESTAMP="$TIMESTAMP" postgres sh -c '
 PGPASSWORD="$POSTGRES_PASSWORD" \
 pg_dump \
     -h "$POSTGRES_HOST" \
@@ -14,9 +13,9 @@ pg_dump \
     -F c \
     -Z 9 \
     -f "/tmp/postgres_backup_$TIMESTAMP.dump"
-'
 
-echo "INFO-$TIMESTAMP: Backup completed."
+
+# echo "INFO-$TIMESTAMP: Backup completed."
 
 gpg \
     --batch \

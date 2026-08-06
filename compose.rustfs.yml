@@ -21,9 +21,9 @@ services:
       - volume-permission-helper
     security_opt:
       - "no-new-privileges:true"
-    ports:
-      - "9000:9000" # S3 API port
-      - "9001:9001" # Console port
+    # ports:
+    #   - "9000:9000" # S3 API port
+    #   - "9001:9001" # Console port
     environment:
       - RUSTFS_VOLUMES=/data/rustfs{0...3}
       - RUSTFS_ADDRESS=0.0.0.0:9000
@@ -82,8 +82,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-
-
 
   # RustFS volume permissions fixer service
   volume-permission-helper:

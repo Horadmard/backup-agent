@@ -1,1 +1,7 @@
 # add pg_dump to the agent,
+# add rustfs client -> rc
+# agent Dockerfile and entripoint
+# add wrapper docker-compose
+# retry and fallback
+# Email notification using curl
+# environmental configuration

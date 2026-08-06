@@ -23,7 +23,3 @@ while read -r OBJECT DATE; do
 
 done
 
-
-
-
-

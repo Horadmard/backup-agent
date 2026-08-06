@@ -16,8 +16,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       # - ${BACKUP_PATH}:/backup
-    ports:
-        - 5432:5432
+    # ports:
+    #     - 5432:5432
 
   adminer:
     image: adminer
