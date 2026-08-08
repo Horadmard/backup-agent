@@ -1,0 +1,18 @@
+[Unit]
+Description=Cleanup Backup Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker compose \
+    --file /home/user/backup-agent/compose.yml \
+    --file /home/user/backup-agent/compose.rustfs.yml \
+    --file /home/user/backup-agent/compose.postgres.yml \
+    run --rm agent bash /app/entrypoint.sh cleanup
+WorkingDirectory=/home/user/backup-agent
+User=user
+Group=user
+
+[Install]
+WantedBy=multi-user.target
