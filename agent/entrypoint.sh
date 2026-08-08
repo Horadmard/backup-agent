@@ -40,15 +40,18 @@ send_email() {
     local SUBJECT="$1"
     local MESSAGE="$2"
 
-    curl --silent --show-error \
+    curl \
+        --fail-with-body \
+        --silent \
+        --show-error \
         --url "smtp://${SMTP_HOST}:${SMTP_PORT}" \
         --ssl-reqd \
-        --user "${SMTP_USER}:${SMTP_PASSWORD}" \
-        --mail-from "${SMTP_USER}" \
+        --user "${SMTP_KEY}:${SMTP_SECRET}" \
+        --mail-from "${SMTP_FROM}" \
         --mail-rcpt "${NOTIFICATION_TO}" \
         --upload-file <(
             cat <<EOF
-From: ${SMTP_USER}
+From: ${SMTP_FROM}
 To: ${NOTIFICATION_TO}
 Subject: ${SUBJECT}
 Content-Type: text/plain; charset=UTF-8
