@@ -8,13 +8,54 @@ BUCKET="backup"
 TIMESTAMP=$(date +'%Y%m%d%H%M%S')
 BACKUP_FILE="/tmp/postgres_backup_${TIMESTAMP}.dump.gpg"
 
+# SMTP_HOST="smtp.example.com"
+# SMTP_PORT="587"
+# SMTP_USER="backup@example.com"
+# SMTP_PASSWORD="your-password"
+# NOTIFICATION_TO="admin@example.com"
+
 log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') [$1] $2"
 }
 
 fail() {
-    log "ERROR" "$1"
+    local MESSAGE="$1"
+
+    log "ERROR" "$MESSAGE"
+
+    send_email \
+        "[BACKUP FAILED] ${HOSTNAME}" \
+        "PostgreSQL backup failed.
+
+Host: ${HOSTNAME}
+Time: $(date '+%Y-%m-%d %H:%M:%S')
+
+Error:
+${MESSAGE}"
+
     exit 1
+}
+
+send_email() {
+    local SUBJECT="$1"
+    local MESSAGE="$2"
+
+    curl --silent --show-error \
+        --url "smtp://${SMTP_HOST}:${SMTP_PORT}" \
+        --ssl-reqd \
+        --user "${SMTP_USER}:${SMTP_PASSWORD}" \
+        --mail-from "${SMTP_USER}" \
+        --mail-rcpt "${NOTIFICATION_TO}" \
+        --upload-file <(
+            cat <<EOF
+From: ${SMTP_USER}
+To: ${NOTIFICATION_TO}
+Subject: ${SUBJECT}
+Content-Type: text/plain; charset=UTF-8
+
+${MESSAGE}
+EOF
+        )
 }
 
 cleanup_tmp() {
@@ -78,6 +119,15 @@ backup() {
         || fail "Upload failed"
 
     log "INFO" "Backup uploaded successfully."
+
+#     send_email \
+#         "[BACKUP SUCCESS] ${HOSTNAME}" \
+#         "PostgreSQL backup completed successfully.
+
+# Host: ${HOSTNAME}
+# Database: ${POSTGRES_DB}
+# Time: $(date '+%Y-%m-%d %H:%M:%S')
+# Backup: postgres_backup_${TIMESTAMP}.dump.gpg"
 }
 
 retention_cleanup() {
@@ -102,6 +152,15 @@ retention_cleanup() {
         
     done
     log "INFO" "Retention cleanup completed."
+
+    send_email \
+        "[BACKUP SUCCESS] ${HOSTNAME}" \
+        "PostgreSQL cleanup completed successfully.
+
+Host: ${HOSTNAME}
+Database: ${POSTGRES_DB}
+Time: $(date '+%Y-%m-%d %H:%M:%S')
+Backup: postgres_backup_${TIMESTAMP}.dump.gpg"
 }
 
 main() {
