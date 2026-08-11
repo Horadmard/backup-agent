@@ -22,7 +22,7 @@ spec:
             env:
             # RustFS
             - name: RUSTFS_HOST
-              value: {{ .Values.rustfs.host | quote }}
+              value: {{ .Values.rustfs.host }}
             - name: RUSTFS_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
@@ -35,7 +35,7 @@ spec:
                   key: RUSTFS_SECRET_KEY
             # PostgreSQL
             - name: POSTGRES_HOST
-              value: {{ .Values.postgres.host | quote }}
+              value: {{ .Values.postgres.host }}
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
@@ -47,7 +47,7 @@ spec:
                   name: {{ include "agent.fullname" . }}-secret
                   key: POSTGRES_PASSWORD
             - name: POSTGRES_DB
-              value: {{ .Values.postgres.database | quote }}
+              value: {{ .Values.postgres.database }}
             # GPG
             - name: GPG_PASSPHRASE
               valueFrom:
@@ -56,9 +56,9 @@ spec:
                   key: GPG_PASSPHRASE
             # SMTP
             - name: SMTP_HOST
-              value: {{ .Values.smtp.host | quote }}
+              value: {{ .Values.smtp.host }}
             - name: SMTP_PORT
-              value: {{ .Values.smtp.port | quote }}
+              value: {{ .Values.smtp.port }}
             - name: SMTP_KEY
               valueFrom:
                 secretKeyRef:
@@ -70,8 +70,8 @@ spec:
                   name: {{ include "agent.fullname" . }}-secret
                   key: SMTP_SECRET
             - name: SMTP_FROM
-              value: {{ .Values.smtp.from | quote }}
+              value: {{ .Values.smtp.from }}
             - name: NOTIFICATION_TO
-              value: {{ .Values.smtp.notificationTo | quote }}
+              value: {{ .Values.smtp.notificationTo }}
             # resources:
             #   {{- toYaml .Values.resources | nindent 16 }}
