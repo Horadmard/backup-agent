@@ -17,10 +17,11 @@ spec:
           - name: agent
             image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
             imagePullPolicy: {{ .Values.image.pullPolicy }}
-            # command:
-            # - /bin/sh
-            # - -c
-            # - date; echo Hello from the Kubernetes cluster
+            command:
+            - /bin/sh
+            - -c
+            - /app/entrypoint.sh
+            - all
             env:
             # RustFS
             - name: RUSTFS_HOST
