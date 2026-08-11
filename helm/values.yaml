@@ -163,7 +163,6 @@ affinity: {}
 
 
 
-
 image:
   repository: astek.ir/agent
   tag: latest
@@ -188,7 +187,7 @@ gpg:
 smtp:
   host: "smtp.example.com"
   port: "587"
-  key: ""
-  secret: ""
-  from: "verified-sender@your-domain.com"
-  notificationTo: "admin@example.com"
+  key: "04e26e62f7ccffff9716"
+  secret: "BuV1O0kyorP9ARhZfHvC"
+  from: "backup@gmail.com"
+  notificationTo: "hosseinradmard4@gmail.com"
