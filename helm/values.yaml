@@ -7,7 +7,7 @@ replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: nginx
+  repository: astek.ir/agent
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
@@ -159,3 +159,36 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+
+
+
+
+image:
+  repository: astek.ir/agent
+  tag: latest
+  pullPolicy: IfNotPresent
+
+schedule: "*/5 * * * *"
+
+rustfs:
+  host: rustfs
+  accessKey: "k8s_rustfs_access_key"
+  secretKey: "WEZFrlG9$01S"
+
+postgres:
+  host: "192.168.56.100"
+  user: "astek"
+  password: "passWord"
+  database: "container"
+
+gpg:
+  passphrase: "passWord"
+
+smtp:
+  host: "smtp.example.com"
+  port: "587"
+  key: ""
+  secret: ""
+  from: "verified-sender@your-domain.com"
+  notificationTo: "admin@example.com"

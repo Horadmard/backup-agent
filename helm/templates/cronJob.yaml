@@ -1,0 +1,82 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "agent.fullname" . }}-cronjob
+  labels:
+    {{- include "agent.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.schedule | quote }}
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        # metadata:
+        #   labels:
+        #     {{- include "agent.selectorLabels" . | nindent 12 }}
+        spec:
+          serviceAccountName: {{ include "agent.serviceAccountName" . }}
+          restartPolicy: OnFailure
+          containers:
+          - name: agent
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            # command:
+            # - /bin/sh
+            # - -c
+            # - date; echo Hello from the Kubernetes cluster
+            env:
+            # RustFS
+            - name: RUSTFS_HOST
+              value: {{ .Values.rustfs.host | quote }}
+            - name: RUSTFS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "agent.fullname" . }}-secret
+                  key: RUSTFS_ACCESS_KEY
+            - name: RUSTFS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "agent.fullname" . }}-secret
+                  key: RUSTFS_SECRET_KEY
+            # PostgreSQL
+            - name: POSTGRES_HOST
+              value: {{ .Values.postgres.host | quote }}
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "agent.fullname" . }}-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "agent.fullname" . }}-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.database | quote }}
+            # GPG
+            - name: GPG_PASSPHRASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "agent.fullname" . }}-secret
+                  key: GPG_PASSPHRASE
+            # SMTP
+            - name: SMTP_HOST
+              value: {{ .Values.smtp.host | quote }}
+            - name: SMTP_PORT
+              value: {{ .Values.smtp.port | quote }}
+            - name: SMTP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "agent.fullname" . }}-secret
+                  key: SMTP_KEY
+            - name: SMTP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "agent.fullname" . }}-secret
+                  key: SMTP_SECRET
+            - name: SMTP_FROM
+              value: {{ .Values.smtp.from | quote }}
+            - name: NOTIFICATION_TO
+              value: {{ .Values.smtp.notificationTo | quote }}
+            # resources:
+            #   {{- toYaml .Values.resources | nindent 16 }}
