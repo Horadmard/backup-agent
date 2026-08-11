@@ -2,10 +2,8 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ include "agent.fullname" . }}-cronjob
-  labels:
-    {{- include "agent.labels" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.schedule | quote }}
+  schedule: "{{ .Values.schedule }}"
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
@@ -17,10 +15,10 @@ spec:
           - name: agent
             image: nginx
             imagePullPolicy: {{ .Values.image.pullPolicy }}
-            # command:
-            # - /bin/sh
-            # - -c
-            # - date; echo Hello from the Kubernetes cluster
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
             env:
             # RustFS
             - name: RUSTFS_HOST
