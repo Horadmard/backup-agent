@@ -125,8 +125,8 @@ secret:
   # `rustfsadmin/rustfsadmin` credentials.
   allowInsecureDefaults: false
   rustfs:
-    access_key: ""
-    secret_key: ""
+    access_key: "k8s_rustfs_access_key"
+    secret_key: "hided"
 
 config:
   rustfs:
@@ -245,8 +245,10 @@ config:
 # selects orchestrated startup when RustFS consumes the generated anchor.
 # With custom volumes, the chart does not inject them and extraEnv may define
 # the local endpoint identity explicitly.
-extraEnv: []
-# extraEnv:
+# extraEnv: []
+extraEnv:
+    - name: RUSTFS_UNSAFE_BYPASS_DISK_CHECK
+      value: "true"
 #   - name: RUSTFS_ERASURE_SET_DRIVE_COUNT
 #     value: "16"
 #   - name: RUSTFS_STORAGE_CLASS_STANDARD
@@ -321,7 +323,7 @@ service:
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-  enabled: true
+  enabled: false
   className: "nginx" # Specify the classname, traefik or nginx. Different classname has different annotations for session sticky.
   traefikAnnotations: {} # Deprecated: use service.traefikAnnotations instead
   nginxAnnotations:
@@ -427,7 +429,7 @@ tolerations: []
 
 affinity:
   podAntiAffinity:
-    enabled: true
+    enabled: false
     topologyKey: kubernetes.io/hostname
   nodeAffinity: {}
 

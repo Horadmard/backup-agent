@@ -31,4 +31,4 @@ COPY entrypoint.sh .
 # RUN chmod +x entrypoint.sh
 
 # ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["/app/entrypoint.sh", "backup"]
+CMD ["/app/entrypoint.sh", "all"]
