@@ -24,3 +24,14 @@ spec:
             # RustFS
             - name: RUSTFS_HOST
               value: "{{ .Values.rustfs.host }}"
+            - name: RUSTFS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "agent.fullname" . }}-secret
+                  key: RUSTFS_ACCESS_KEY
+            - name: RUSTFS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "agent.fullname" . }}-secret
+                  key: RUSTFS_SECRET_KEY
+            
