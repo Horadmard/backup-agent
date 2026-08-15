@@ -18,14 +18,16 @@ spec:
             image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
             imagePullPolicy: {{ .Values.image.pullPolicy }}
             command:
-            - /bin/sh
-            - -c
-            - /app/entrypoint.sh
-            - all
+              - /bin/sh 
+              - /app/entrypoint.sh
+              - all
             env:
             # RustFS
             - name: RUSTFS_HOST
-              value: {{ .Values.rustfs.host | quote }}
+              valueFrom:
+                configMapKeyRef:
+                  {{ include "agent.fullname" . }}-config
+                  key: RUSTFS_HOST
             - name: RUSTFS_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
@@ -38,7 +40,10 @@ spec:
                   key: RUSTFS_SECRET_KEY
             # PostgreSQL
             - name: POSTGRES_HOST
-              value: {{ .Values.postgres.host | quote }}
+              valueFrom:
+                configMapKeyRef:
+                  {{ include "agent.fullname" . }}-config
+                  key: POSTGRES_HOST
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
@@ -50,7 +55,10 @@ spec:
                   name: {{ include "agent.fullname" . }}-secret
                   key: POSTGRES_PASSWORD
             - name: POSTGRES_DB
-              value: {{ .Values.postgres.database | quote }}
+              valueFrom:
+                configMapKeyRef:
+                  {{ include "agent.fullname" . }}-config
+                  key: POSTGRES_DB
             # GPG
             - name: GPG_PASSPHRASE
               valueFrom:
@@ -59,9 +67,15 @@ spec:
                   key: GPG_PASSPHRASE
             # SMTP
             - name: SMTP_HOST
-              value: {{ .Values.smtp.host | quote }}
+              valueFrom:
+                configMapKeyRef:
+                  {{ include "agent.fullname" . }}-config
+                  key: SMTP_HOST
             - name: SMTP_PORT
-              value: {{ .Values.smtp.port | quote }}
+              valueFrom:
+                configMapKeyRef:
+                  {{ include "agent.fullname" . }}-config
+                  key: SMTP_PORT
             - name: SMTP_KEY
               valueFrom:
                 secretKeyRef:
@@ -73,6 +87,12 @@ spec:
                   name: {{ include "agent.fullname" . }}-secret
                   key: SMTP_SECRET
             - name: SMTP_FROM
-              value: {{ .Values.smtp.from | quote }}
+              valueFrom:
+                configMapKeyRef:
+                  {{ include "agent.fullname" . }}-config
+                  key: SMTP_FROM
             - name: NOTIFICATION_TO
-              value: {{ .Values.smtp.notificationTo | quote }}
+              valueFrom:
+                configMapKeyRef:
+                  {{ include "agent.fullname" . }}-config
+                  key: NOTIFICATION_TO
