@@ -172,8 +172,8 @@ schedule: "*/5 * * * *"
 
 rustfs:
   host: rustfs
-  accessKey: "k8s_rustfs_access_key"
-  secretKey: "WEZFrlG9$01S"
+  access_key: "k8s_rustfs_access_key"
+  secret_key: "WEZFrlG9$01S"
 
 postgres:
   host: "192.168.56.100"
