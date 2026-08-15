@@ -26,7 +26,7 @@ spec:
             - name: RUSTFS_HOST
               valueFrom:
                 configMapKeyRef:
-                  {{ include "agent.fullname" . }}-config
+                  name: {{ include "agent.fullname" . }}-config
                   key: RUSTFS_HOST
             - name: RUSTFS_ACCESS_KEY
               valueFrom:
@@ -42,7 +42,7 @@ spec:
             - name: POSTGRES_HOST
               valueFrom:
                 configMapKeyRef:
-                  {{ include "agent.fullname" . }}-config
+                  name: {{ include "agent.fullname" . }}-config
                   key: POSTGRES_HOST
             - name: POSTGRES_USER
               valueFrom:
@@ -57,7 +57,7 @@ spec:
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
-                  {{ include "agent.fullname" . }}-config
+                  name: {{ include "agent.fullname" . }}-config
                   key: POSTGRES_DB
             # GPG
             - name: GPG_PASSPHRASE
@@ -69,12 +69,12 @@ spec:
             - name: SMTP_HOST
               valueFrom:
                 configMapKeyRef:
-                  {{ include "agent.fullname" . }}-config
+                  name: {{ include "agent.fullname" . }}-config
                   key: SMTP_HOST
             - name: SMTP_PORT
               valueFrom:
                 configMapKeyRef:
-                  {{ include "agent.fullname" . }}-config
+                  name: {{ include "agent.fullname" . }}-config
                   key: SMTP_PORT
             - name: SMTP_KEY
               valueFrom:
@@ -89,10 +89,10 @@ spec:
             - name: SMTP_FROM
               valueFrom:
                 configMapKeyRef:
-                  {{ include "agent.fullname" . }}-config
+                  name: {{ include "agent.fullname" . }}-config
                   key: SMTP_FROM
             - name: NOTIFICATION_TO
               valueFrom:
                 configMapKeyRef:
-                  {{ include "agent.fullname" . }}-config
+                  name: {{ include "agent.fullname" . }}-config
                   key: NOTIFICATION_TO
